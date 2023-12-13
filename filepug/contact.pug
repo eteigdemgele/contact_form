@@ -1,0 +1,24 @@
+doctype html
+html(lang="fr")
+  head
+    title Formulaire de contact
+  body
+    header
+      h1 Formulaire de contact
+    main
+      form(action="/contact" method="POST")
+        label(for="User_Surname") Nom(*) :
+        input(type="text" id="surname" name="User_Surname" required)
+        
+        label(for="User_Firstname") Prénom(*) :
+        input(type="text" id="lastname" name="User_Firstname" required)
+        
+        label(for="User_Email") Email(*) :
+        input(type="email" id="mail" name="User_Email" required)
+        
+        label(for="User_Message") Message :
+        textarea(id="message" name="User_Message" required)
+        
+        input(type="submit" value="Envoyer")
+    footer
+      a(href="/accueil") Retour à la page d'accueil

@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  postgresdb:
+    container_name: postgres_contact_form
+    image: postgres
+    restart: always
+    environment:
+      - POSTGRES_USER=adminuser
+      - POSTGRES_PASSWORD=adminpassword
+      - POSTGRES_DB=mydatabase
+    ports:
+      - 5432:5432
+    volumes:
+      - ./database/contactuser.sql:/docker-entrypoint-initdb.d/init.sql
