@@ -1,6 +1,21 @@
 version: '3.8'
 
 services:
+  serveurweb:
+    container_name: serveur_contact_form
+    image: image_contact_form
+    restart: always
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 3000:3000
+    volumes:
+      - ./src:/app/src
+      - ./dist:/app/dist
+      - ./filepug:/app/filepug
+    command: npm run dev
+    
   postgresdb:
     container_name: postgres_contact_form
     image: postgres
