@@ -1,6 +1,9 @@
 import express, { Request, Response } from 'express';
 import { Client } from 'pg';
 import { dbConfig } from './dbConfig';
+import { succesRouter } from './succesRouter'; 
+
+
 
 const router = express.Router();
 
@@ -18,19 +21,23 @@ router.post('/', async (req, res) => {
         const userFirstName = req.body.User_Firstname;
         const userEmail = req.body.User_Email;
         const userMessage = req.body.User_Message;
-
         // Ajout des validations de champs de formulaire en utilisant regex
-        const nameRegex = /^[a-zA-Z]+$/;
-        const emailRegex = /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/;
+        const nameRegex = /^[a-zA-ZÀ-ÿ\s'-]{1,50}$/; 
+        const emailRegex = /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/; 
+        const messageRegex = /^.{1,150}$/;
 
         if (!nameRegex.test(userSurname) || !nameRegex.test(userFirstName)) {
-            throw new Error('Le prénom et le nom de famille ne doivent contenir que des lettres.');
+            throw new Error('Le prénom et le nom de famille ne doivent contenir que des lettres et ne doivent pas dépasser 50 caractères.');
         }
 
-        if (!emailRegex.test(userEmail)) {
-            throw new Error('L\'adresse e-mail n\'est pas valide.');
+        if (!emailRegex.test(userEmail) || userEmail.length > 100) {
+            throw new Error('L\'adresse e-mail n\'est pas valide.'); 
         }
 
+        if (!messageRegex.test(userMessage)) {
+            throw new Error('Le message ne doit pas dépasser 150 caractères.');
+        }
+        
         const insertQuery = `INSERT INTO contactuser (User_Surname, User_Firstname, User_Email, User_Message)
                              VALUES ($1, $2, $3, $4)`;
 
@@ -39,7 +46,7 @@ router.post('/', async (req, res) => {
         await client.query(insertQuery, values);
 
         console.log('Message envoyé avec succès');
-        res.redirect('/accueil');
+        res.redirect('/msgsucces');
 
     } catch (error) {
         console.error('Assurez-vous que tous les champs (*) ont été complétés : ', error);

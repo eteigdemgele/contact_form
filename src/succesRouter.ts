@@ -3,8 +3,7 @@ import express, { Request, Response } from 'express';
 const router = express.Router();
 
 router.get('/', (req: Request, res: Response) => {
-    res.render('accueil', { pageTitle: 'accueil' });
-    
+    res.render('msgsucces', { pageTitle: 'msgsucces' });
 });
 
-export { router as accueilRouter };
+export { router as succesRouter };
